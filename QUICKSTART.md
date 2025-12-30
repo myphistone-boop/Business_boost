@@ -53,13 +53,17 @@ Vous devriez recevoir un email de test ! ✅
 # Étape 1 : Trouver des prospects
 npm run scrape
 
-# Étape 2 : Analyser leurs sites
+# Étape 2 : Trouver leurs emails 🆕
+npm run find-emails
+# Scrape les sites + génère des emails probables
+
+# Étape 3 : Analyser leurs sites
 npm run analyze
 
-# Étape 3 : Générer les emails
+# Étape 4 : Générer les emails
 npm run generate-emails
 
-# Étape 4 : Voir le dashboard
+# Étape 5 : Voir le dashboard
 npm run dashboard
 # Ouvrez http://localhost:3000
 ```

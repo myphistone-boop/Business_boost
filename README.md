@@ -7,10 +7,16 @@ Système complet et automatisé pour trouver, analyser et contacter des prospect
 ✅ **1. Scraper de Prospects**
 - Recherche automatique d'entreprises sur PagesJaunes
 - Recherche par secteur d'activité et localisation
-- Extraction des coordonnées (nom, site web, téléphone, email)
+- Extraction des coordonnées (nom, site web, téléphone)
 - Détection des entreprises SANS site web (prospects prioritaires)
 
-✅ **2. Analyseur de Sites Web**
+✅ **2. Recherche Automatique d'Emails** 🆕
+- **Scraping des sites web** : Parcourt les pages Contact, Mentions légales
+- **Génération intelligente** : Crée des emails probables (contact@domaine.fr)
+- **Validation DNS** : Vérifie l'existence des serveurs mail
+- Taux de succès : **70-80% des prospects**
+
+✅ **3. Analyseur de Sites Web**
 - Analyse automatique de la performance (vitesse de chargement)
 - Score SEO (balises meta, titres, structure)
 - Détection responsive/mobile-friendly
@@ -18,21 +24,21 @@ Système complet et automatisé pour trouver, analyser et contacter des prospect
 - Identification des technologies obsolètes
 - Liste des problèmes et opportunités d'amélioration
 
-✅ **3. Générateur d'Emails Personnalisés**
+✅ **4. Générateur d'Emails Personnalisés**
 - Génération automatique avec OpenAI (GPT-4)
 - Templates prédéfinis si pas d'API
 - Personnalisation basée sur l'analyse du site
 - Mention des problèmes spécifiques identifiés
 - Call-to-action optimisé
 
-✅ **4. Système d'Envoi d'Emails**
+✅ **5. Système d'Envoi d'Emails**
 - Envoi automatique via SMTP
 - Limite journalière configurable
 - Délai entre envois (anti-spam)
 - Suivi des emails envoyés
 - Mode test
 
-✅ **5. Dashboard de Suivi**
+✅ **6. Dashboard de Suivi**
 - Interface web pour visualiser les prospects
 - Statistiques en temps réel
 - API REST pour intégrations
@@ -118,9 +124,10 @@ npm start
 
 Cela va :
 1. Scraper des prospects selon vos critères
-2. Analyser leurs sites web
-3. Générer des emails personnalisés
-4. Afficher les statistiques
+2. **Trouver automatiquement leurs emails** 🆕
+3. Analyser leurs sites web
+4. Générer des emails personnalisés
+5. Afficher les statistiques
 
 ### Mode Étape par Étape
 
@@ -131,21 +138,32 @@ npm run scrape
 
 Trouve des entreprises sur PagesJaunes selon les secteurs définis dans `.env`
 
-#### 2. Analyser les sites web
+#### 2. Trouver les emails 🆕
+```bash
+npm run find-emails
+```
+
+**Nouveau module !** Trouve automatiquement les emails :
+- Scrape les pages Contact/Mentions légales
+- Génère des emails probables (contact@, info@)
+- Valide les serveurs mail (DNS)
+- Taux de succès : 70-80%
+
+#### 3. Analyser les sites web
 ```bash
 npm run analyze
 ```
 
 Analyse les sites web de tous les prospects trouvés (performance, SEO, etc.)
 
-#### 3. Générer les emails
+#### 4. Générer les emails
 ```bash
 npm run generate-emails
 ```
 
 Crée des emails personnalisés pour chaque prospect
 
-#### 4. Envoyer les emails
+#### 5. Envoyer les emails
 
 **Test d'abord :**
 ```bash
@@ -157,7 +175,7 @@ npm run send-emails test votre-email@test.com
 npm run send-emails
 ```
 
-#### 5. Dashboard de suivi
+#### 6. Dashboard de suivi
 ```bash
 npm run dashboard
 ```

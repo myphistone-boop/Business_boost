@@ -8,6 +8,7 @@
     "dev": "ts-node src/index.ts",
     "start": "node dist/index.js",
     "scrape": "ts-node src/scraper.ts",
+    "find-emails": "ts-node src/emailFinder.ts",
     "analyze": "ts-node src/analyzer.ts",
     "generate-emails": "ts-node src/emailGenerator.ts",
     "send-emails": "ts-node src/emailSender.ts",

@@ -4,6 +4,7 @@ import { ProspectScraper } from './scraper';
 import { WebsiteAnalyzer } from './analyzer';
 import { EmailGenerator } from './emailGenerator';
 import { EmailSender } from './emailSender';
+import { EmailFinder } from './emailFinder';
 import { Dashboard } from './dashboard';
 import { Database } from './database';
 import * as dotenv from 'dotenv';
@@ -13,6 +14,7 @@ dotenv.config();
 class ProspectingSystem {
   private scraper: ProspectScraper;
   private analyzer: WebsiteAnalyzer;
+  private emailFinder: EmailFinder;
   private emailGenerator: EmailGenerator;
   private emailSender: EmailSender;
   private dashboard: Dashboard;
@@ -21,6 +23,7 @@ class ProspectingSystem {
   constructor() {
     this.scraper = new ProspectScraper();
     this.analyzer = new WebsiteAnalyzer();
+    this.emailFinder = new EmailFinder();
     this.emailGenerator = new EmailGenerator();
     this.emailSender = new EmailSender();
     this.dashboard = new Dashboard();
@@ -33,36 +36,46 @@ class ProspectingSystem {
   async runFullPipeline(): Promise<void> {
     console.log('╔════════════════════════════════════════════════════════════╗');
     console.log('║     🚀 SYSTÈME DE PROSPECTION AUTOMATIQUE                 ║');
-    console.log('║     Pipeline Complet: Scraping → Analyse → Email          ║');
+    console.log('║     Pipeline: Scraping → Emails → Analyse → Envoi         ║');
     console.log('╚════════════════════════════════════════════════════════════╝\n');
 
     try {
       // Étape 1: Scraping
-      console.log('📍 ÉTAPE 1/4: Scraping des prospects...\n');
+      console.log('📍 ÉTAPE 1/5: Scraping des prospects...\n');
       await this.scraper.runFullScraping();
 
       console.log('\n' + '─'.repeat(60) + '\n');
 
-      // Étape 2: Analyse
-      console.log('📍 ÉTAPE 2/4: Analyse des sites web...\n');
+      // Étape 2: Recherche des emails
+      console.log('📍 ÉTAPE 2/5: Recherche des emails...\n');
+      await this.emailFinder.findAllEmails();
+
+      console.log('\n' + '─'.repeat(60) + '\n');
+
+      // Étape 3: Analyse
+      console.log('📍 ÉTAPE 3/5: Analyse des sites web...\n');
       await this.analyzer.analyzeAllProspects();
 
       console.log('\n' + '─'.repeat(60) + '\n');
 
-      // Étape 3: Génération des emails
-      console.log('📍 ÉTAPE 3/4: Génération des emails personnalisés...\n');
+      // Étape 4: Génération des emails
+      console.log('📍 ÉTAPE 4/5: Génération des emails personnalisés...\n');
       await this.emailGenerator.generateAllEmails();
 
       console.log('\n' + '─'.repeat(60) + '\n');
 
-      // Étape 4: Statistiques finales
-      console.log('📍 ÉTAPE 4/4: Récapitulatif\n');
+      // Étape 5: Statistiques finales
+      console.log('📍 ÉTAPE 5/5: Récapitulatif\n');
       const stats = await this.db.getStats();
+
+      // Compter les prospects avec email
+      const prospectsWithEmail = await this.countProspectsWithEmail();
 
       console.log('╔════════════════════════════════════════════════════════════╗');
       console.log('║                    📊 STATISTIQUES                         ║');
       console.log('╠════════════════════════════════════════════════════════════╣');
       console.log(`║  Total prospects trouvés:        ${String(stats.total_prospects).padEnd(23)}║`);
+      console.log(`║  Prospects avec email:           ${String(prospectsWithEmail).padEnd(23)}║`);
       console.log(`║  Prospects analysés:             ${String(stats.analyzed).padEnd(23)}║`);
       console.log(`║  Emails générés:                 ${String(stats.analyzed).padEnd(23)}║`);
       console.log('╚════════════════════════════════════════════════════════════╝\n');
@@ -79,6 +92,21 @@ class ProspectingSystem {
     } finally {
       await this.cleanup();
     }
+  }
+
+  /**
+   * Compte le nombre de prospects avec email
+   */
+  private async countProspectsWithEmail(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.db['db'].get(
+        'SELECT COUNT(*) as count FROM prospects WHERE email IS NOT NULL AND email != ""',
+        (err: any, row: any) => {
+          if (err) reject(err);
+          else resolve(row.count);
+        }
+      );
+    });
   }
 
   /**
@@ -130,6 +158,7 @@ class ProspectingSystem {
     console.log('║  Commandes disponibles:                                   ║');
     console.log('║                                                            ║');
     console.log('║  npm run scrape          → Scraper des prospects          ║');
+    console.log('║  npm run find-emails     → Trouver les emails             ║');
     console.log('║  npm run analyze         → Analyser les sites web         ║');
     console.log('║  npm run generate-emails → Générer les emails             ║');
     console.log('║  npm run send-emails     → Envoyer les emails             ║');
@@ -140,6 +169,7 @@ class ProspectingSystem {
 
   private async cleanup(): Promise<void> {
     await this.scraper.close();
+    await this.emailFinder.close();
     await this.analyzer.close();
     this.emailGenerator.close();
     this.emailSender.close();
