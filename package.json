@@ -1,0 +1,39 @@
+{
+  "name": "web-sales-prospecting",
+  "version": "1.0.0",
+  "description": "Système automatisé de prospection pour vente de sites web",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "scrape": "ts-node src/scraper.ts",
+    "analyze": "ts-node src/analyzer.ts",
+    "generate-emails": "ts-node src/emailGenerator.ts",
+    "send-emails": "ts-node src/emailSender.ts",
+    "dashboard": "ts-node src/dashboard.ts"
+  },
+  "keywords": ["prospection", "automation", "web-sales", "scraping"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
+    "puppeteer": "^21.6.1",
+    "lighthouse": "^11.4.0",
+    "nodemailer": "^6.9.7",
+    "sqlite3": "^5.1.6",
+    "dotenv": "^16.3.1",
+    "openai": "^4.20.1",
+    "express": "^4.18.2",
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "@types/nodemailer": "^6.4.14",
+    "@types/express": "^4.17.21",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2"
+  }
+}

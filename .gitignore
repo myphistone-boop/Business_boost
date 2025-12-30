@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+*.db
+prospects.csv
+emails_sent.csv
+*.log
+.DS_Store
