@@ -1,0 +1,23 @@
+# Système de Prospection Automatique - Dépendances Python
+
+# Scraping et Web
+requests==2.31.0
+beautifulsoup4==4.12.2
+selenium==4.16.0
+lxml==4.9.3
+
+# Email
+python-dotenv==1.0.0
+openai==1.6.1
+
+# Base de données
+# sqlite3 est inclus nativement dans Python
+
+# Dashboard Web
+flask==3.0.0
+flask-cors==4.0.0
+
+# Utilitaires
+python-dateutil==2.8.2
+validators==0.22.0
+dnspython==2.4.2
